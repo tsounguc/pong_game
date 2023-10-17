@@ -16,3 +16,4 @@ class Paddle(Turtle):
 
     def go_down(self):
         self.goto(self.xcor(), self.ycor() - 20)
+
