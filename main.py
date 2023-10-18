@@ -14,14 +14,14 @@ screen.tracer(0)
 
 
 user_paddle = Paddle(x_position=350, y_position=0)
-computer_paddle = Paddle(x_position=-350, y_position=0)
+comp_paddle = Paddle(x_position=-350, y_position=0)
 ball = Ball()
 
 screen.listen()
 screen.onkey(user_paddle.go_up, "Up")
 screen.onkey(user_paddle.go_down, "Down")
-screen.onkey(computer_paddle.go_up, "w")
-screen.onkey(computer_paddle.go_down, "s")
+screen.onkey(comp_paddle.go_up, "w")
+screen.onkey(comp_paddle.go_down, "s")
 
 
 game_is_on = True
@@ -32,8 +32,22 @@ while game_is_on:
     ball.move()
 
     # Detect when ball hits top or bottom
-    if ball.ycor() < -290 or ball.ycor() > 290:
-        ball.bounce()
+    if ball.ycor() < -280 or ball.ycor() > 280:
+        ball.bounce_y()
+
+    # Detect collision with user_paddle
+    if ball.distance(user_paddle) < 50 and ball.xcor() > 320 or ball.distance(comp_paddle) < 50 and ball.xcor() < -320:
+        ball.bounce_x()
+
+    # Detect user_paddle miss
+    if ball.xcor() < -380:
+        ball.reset_position()
+        # game_is_on = False
+
+    # Detect comp_paddle miss
+    if ball.xcor() > 380:
+        ball.reset_position()
+        # game_is_on = False
 
 screen.exitonclick()
 
